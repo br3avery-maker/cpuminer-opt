@@ -12,22 +12,8 @@
 
 #elif defined(__aarch64__)
 
-static inline uint64_t bswap_64( uint64_t a )
-{
-   uint64_t b;
-   asm( "rev %0, %1\n\t" : "=r"(b) : "r"(a) );
-   return b;
-}
-
-// This produces warnings from clang, but its suggested workaround 
-// "rev32 %w0, %w1\n\t" produced errors instead. GCC doesn't complain and
-// it works as is on both.
-static inline uint32_t bswap_32( uint32_t a )
-{
-   uint32_t b;
-   asm( "rev32 %0, %1\n\t" : "=r"(b) : "r"(a) );
-   return b;
-}
+#define bswap_64    __builtin_bswap64
+#define bswap_32    __builtin_bswap32
 
 #else
 
@@ -202,5 +188,4 @@ typedef union
 #endif  // GCC_INT128
 
 #endif // SIMD_INT_H__
-
 
